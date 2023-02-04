@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+  <title>OpenAI Quickstart</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='openai_logo.jpeg') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+  <script>
+
+      $(function () {
+          var lang = [];
+          $.getJSON('static/lang_list.json', function (data) {
+              var tblRow = ""
+              $.each(data.lang, function (i, f) {
+                  tblRow = tblRow + "<option value=" + f.language_code + ">"  + f.display_name +  "</option>"
+              });
+              console.log(tblRow)
+              $("#languagedata").html(tblRow);
+          });
+      });
+  </script>
+</head>
+
+<body>
+  <img src="{{ url_for('static', filename='openai_logo.jpeg') }}" class="icon" />
+  <h3>What can I do for you?</h3>
+  <form action="/" method="post">
+    <label class="custom-selector">
+    <select name="language" id="languagedata">
+    </select>
+    </label>
+    <input type="text" name="question" placeholder="Enter your Question" required />
+    <input type="submit" value="Click" />
+  </form>
+
+  {% if result %}
+  <div class="result">{{ result |safe }}</div>
+  {% endif %}
+</body>
